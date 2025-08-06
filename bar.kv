@@ -1,0 +1,37 @@
+<SalesForm>:
+    orientation: 'vertical'
+    padding: 20
+    spacing: 10
+
+    TextInput:
+        id: item_name
+        hint_text: 'Item Name'
+
+    TextInput:
+        id: stock_before
+        hint_text: 'Stock Before'
+        input_filter: 'int'
+
+    TextInput:
+        id: quantity_sold
+        hint_text: 'Quantity Sold'
+        input_filter: 'int'
+
+    TextInput:
+        id: price
+        hint_text: 'Price per Unit'
+        input_filter: 'float'
+
+    TextInput:
+        id: expenditure
+        hint_text: 'Daily Expenditure'
+        input_filter: 'float'
+
+    Button:
+        text: 'Generate Report'
+        on_press: root.submit()
+
+    Label:
+        id: status
+        text: ''
+        halign: 'center'
