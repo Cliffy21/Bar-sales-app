@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from report_generator import generate_report
+from kivy.metrics import dp
 
 class SalesForm(BoxLayout):
     def submit(self):

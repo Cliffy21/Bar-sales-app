@@ -1,37 +1,92 @@
 <SalesForm>:
     orientation: 'vertical'
-    padding: 20
-    spacing: 10
+    padding: dp(24)
+    spacing: dp(16)
+
+    canvas.before:
+        Color:
+            rgba: 0.95, 0.95, 0.95, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: 'Bar Sales Report'
+        font_size: '22sp'
+        bold: True
+        size_hint_y: None
+        height: dp(40)
+        color: 0.2, 0.2, 0.2, 1
 
     TextInput:
         id: item_name
         hint_text: 'Item Name'
+        size_hint_y: None
+        height: dp(48)
+        background_normal: ''
+        background_color: 1, 1, 1, 1
+        foreground_color: 0, 0, 0, 1
+        padding: [10, 10]
 
     TextInput:
         id: stock_before
         hint_text: 'Stock Before'
         input_filter: 'int'
+        size_hint_y: None
+        height: dp(48)
+        background_normal: ''
+        background_color: 1, 1, 1, 1
+        foreground_color: 0, 0, 0, 1
+        padding: [10, 10]
 
     TextInput:
         id: quantity_sold
         hint_text: 'Quantity Sold'
         input_filter: 'int'
+        size_hint_y: None
+        height: dp(48)
+        background_normal: ''
+        background_color: 1, 1, 1, 1
+        foreground_color: 0, 0, 0, 1
+        padding: [10, 10]
 
     TextInput:
         id: price
         hint_text: 'Price per Unit'
         input_filter: 'float'
+        size_hint_y: None
+        height: dp(48)
+        background_normal: ''
+        background_color: 1, 1, 1, 1
+        foreground_color: 0, 0, 0, 1
+        padding: [10, 10]
 
     TextInput:
         id: expenditure
         hint_text: 'Daily Expenditure'
         input_filter: 'float'
+        size_hint_y: None
+        height: dp(48)
+        background_normal: ''
+        background_color: 1, 1, 1, 1
+        foreground_color: 0, 0, 0, 1
+        padding: [10, 10]
 
     Button:
-        text: 'Generate Report'
+        text: '📄 Generate Report'
+        size_hint_y: None
+        height: dp(50)
+        background_color: 0.2, 0.6, 0.86, 1
+        color: 1, 1, 1, 1
+        font_size: '16sp'
         on_press: root.submit()
 
     Label:
         id: status
         text: ''
         halign: 'center'
+        valign: 'middle'
+        size_hint_y: None
+        height: dp(60)
+        text_size: self.width, None
+        color: 0.1, 0.5, 0.1, 1
