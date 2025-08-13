@@ -1,92 +1,207 @@
+#:import Button kivy.uix.button
+#:import TextInput kivy.uix.textinput
+#:import Spinner kivy.uix.spinner
+
+<CustomButton@Button>:
+    background_normal: ''
+    background_color: (0.2, 0.6, 0.8, 1)
+    color: (1, 1, 1, 1)
+    font_size: '14sp'
+    size_hint: (None, None)
+    size: (120, 40)
+
+<ModernTextInput@TextInput>:
+    multiline: False
+    size_hint: (None, None)
+    size: (200, 40)
+    font_size: '14sp'
+    background_normal: ''
+    background_color: (0.95, 0.95, 0.95, 1)
+    foreground_color: (0, 0, 0, 1)
+
+<CustomSpinner@Spinner>:
+    background_normal: ''
+    background_color: (0.95, 0.95, 0.95, 1)
+    color: (0.2, 0.2, 0.2, 1)
+    font_size: '14sp'
+    size_hint: (None, None)
+    size: (200, 40)
+
 <SalesForm>:
     orientation: 'vertical'
-    padding: dp(24)
-    spacing: dp(16)
+    padding: 20
+    spacing: 15
 
-    canvas.before:
-        Color:
-            rgba: 0.95, 0.95, 0.95, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-    Label:
-        text: 'Bar Sales Report'
-        font_size: '22sp'
-        bold: True
+    BoxLayout:
         size_hint_y: None
-        height: dp(40)
-        color: 0.2, 0.2, 0.2, 1
+        height: 50
+        Label:
+            text: 'Bar Sales Manager Pro'
+            font_size: '24sp'
+            bold: True
+            color: (0.2, 0.2, 0.2, 1)
 
-    TextInput:
-        id: item_name
-        hint_text: 'Item Name'
+    # Category Filter Row
+    BoxLayout:
         size_hint_y: None
-        height: dp(48)
-        background_normal: ''
-        background_color: 1, 1, 1, 1
-        foreground_color: 0, 0, 0, 1
-        padding: [10, 10]
+        height: 50
+        spacing: 10
+        Label:
+            text: 'Filter:'
+            font_size: '16sp'
+            size_hint_x: None
+            width: 80
+        CustomSpinner:
+            id: category_filter
+            text: 'All'
+            values: root.categories
+            on_text: root.filter_by_category(self.text)
+        CustomSpinner:
+            id: subcategory_filter
+            text: 'All'
+            values: root.subcategories
+            on_text: root.filter_by_subcategory(self.text)
+        CustomButton:
+            text: 'Reset'
+            size_hint_x: None
+            width: 100
+            on_press:
+                category_filter.text = 'All'
+                subcategory_filter.text = 'All'
+                root.filter_by_category('All')
 
-    TextInput:
-        id: stock_before
-        hint_text: 'Stock Before'
-        input_filter: 'int'
-        size_hint_y: None
-        height: dp(48)
-        background_normal: ''
-        background_color: 1, 1, 1, 1
-        foreground_color: 0, 0, 0, 1
-        padding: [10, 10]
+    ScrollView:
+        GridLayout:
+            id: products_grid
+            cols: 1
+            spacing: 10
+            size_hint_y: None
+            height: self.minimum_height
+            padding: [0, 0, 15, 0]
 
-    TextInput:
-        id: quantity_sold
-        hint_text: 'Quantity Sold'
-        input_filter: 'int'
+    BoxLayout:
         size_hint_y: None
-        height: dp(48)
-        background_normal: ''
-        background_color: 1, 1, 1, 1
-        foreground_color: 0, 0, 0, 1
-        padding: [10, 10]
+        height: 60
+        spacing: 20
+        Label:
+            text: 'Total Revenue:'
+            font_size: '18sp'
+            bold: True
+        Label:
+            id: revenue_preview
+            text: 'Ksh 0'
+            font_size: '18sp'
+            bold: True
+            color: (0.2, 0.6, 0.2, 1)
+        Label:
+            text: 'Items Sold:'
+            font_size: '18sp'
+            bold: True
+        Label:
+            id: items_preview
+            text: '0 items'
+            font_size: '18sp'
+            bold: True
+            color: (0.2, 0.6, 0.2, 1)
 
-    TextInput:
-        id: price
-        hint_text: 'Price per Unit'
-        input_filter: 'float'
+    BoxLayout:
         size_hint_y: None
-        height: dp(48)
-        background_normal: ''
-        background_color: 1, 1, 1, 1
-        foreground_color: 0, 0, 0, 1
-        padding: [10, 10]
+        height: 50
+        spacing: 10
+        Label:
+            text: 'Expenditure:'
+            font_size: '16sp'
+        ModernTextInput:
+            id: expenditure
+            hint_text: 'Enter total expenditure'
+            input_filter: 'float'
 
-    TextInput:
-        id: expenditure
-        hint_text: 'Daily Expenditure'
-        input_filter: 'float'
+    BoxLayout:
         size_hint_y: None
-        height: dp(48)
-        background_normal: ''
-        background_color: 1, 1, 1, 1
-        foreground_color: 0, 0, 0, 1
-        padding: [10, 10]
-
-    Button:
-        text: '📄 Generate Report'
-        size_hint_y: None
-        height: dp(50)
-        background_color: 0.2, 0.6, 0.86, 1
-        color: 1, 1, 1, 1
-        font_size: '16sp'
-        on_press: root.submit()
+        height: 50
+        spacing: 20
+        CustomButton:
+            text: 'Generate Report'
+            on_press: root.generate_report()
+        CustomButton:
+            text: 'Clear All'
+            on_press: root.clear_all()
+        CustomButton:
+            text: 'Sample Data'
+            on_press: root.quick_fill_sample()
 
     Label:
         id: status
-        text: ''
+        text: 'Ready to generate report...'
+        font_size: '14sp'
+        color: (0.7, 0.7, 0.7, 1)
+        size_hint_y: None
+        height: 60
+        text_size: self.width, None
         halign: 'center'
         valign: 'middle'
-        size_hint_y: None
-        height: dp(60)
+
+<ProductRow>:
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: 50
+    spacing: 10
+
+    Label:
+        text: root.icon
+        font_size: '20sp'
+        size_hint_x: None
+        width: 40
+
+    Label:
+        text: root.product_name
+        font_size: '16sp'
+        size_hint_x: None
+        width: 150
         text_size: self.width, None
-        color: 0.1, 0.5, 0.1, 1
+        halign: 'left'
+        valign: 'middle'
+
+    Label:
+        text: root.category
+        font_size: '14sp'
+        size_hint_x: None
+        width: 100
+        text_size: self.width, None
+        halign: 'center'
+        valign: 'middle'
+
+    Label:
+        text: str(root.stock)
+        font_size: '16sp'
+        size_hint_x: None
+        width: 60
+
+    Label:
+        text: f'Ksh {root.price:,}'
+        font_size: '16sp'
+        size_hint_x: None
+        width: 80
+
+    BoxLayout:
+        size_hint_x: None
+        width: 200
+        spacing: 5
+        CustomButton:
+            text: '-'
+            size_hint_x: None
+            width: 40
+            on_press: root.decrement_quantity()
+        ModernTextInput:
+            id: qty_input
+            size_hint_x: None
+            width: 80
+            hint_text: '0'
+            input_filter: 'int'
+            multiline: False
+            on_text: root.update_parent_preview()
+        CustomButton:
+            text: '+'
+            size_hint_x: None
+            width: 40
+            on_press: root.increment_quantity()
