@@ -115,6 +115,18 @@
             id: expenditure
             hint_text: 'Enter total expenditure'
             input_filter: 'float'
+            
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        spacing: 10
+        Label:
+            text: 'Mpesa Amount:'
+            font_size: '16sp'
+        ModernTextInput:
+            id: Mpesa Amount 
+            hint_text: 'Enter total Mpesa Amount'
+            input_filter: 'float'
 
     BoxLayout:
         size_hint_y: None
@@ -126,9 +138,7 @@
         CustomButton:
             text: 'Clear All'
             on_press: root.clear_all()
-        CustomButton:
-            text: 'Sample Data'
-            on_press: root.quick_fill_sample()
+      
 
     Label:
         id: status
@@ -205,3 +215,4 @@
             size_hint_x: None
             width: 40
             on_press: root.increment_quantity()
+        
